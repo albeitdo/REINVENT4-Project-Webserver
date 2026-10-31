@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import json
 from datetime import datetime
@@ -41,6 +42,10 @@ def update_job_status(job_id: str, status: str, error: str = None):
         with open(status_file, "w") as f:
             json.dump(data, f)
 
+def get_python_exe() -> str:
+    # Menggunakan sys.executable (kompatibel Windows & Linux Cloud)
+    return sys.executable
+
 def run_reinvent_job(job_id: str, toml_path: str):
     """
     Eksekutor background task untuk menjalankan subprocess REINVENT.
@@ -49,14 +54,13 @@ def run_reinvent_job(job_id: str, toml_path: str):
     update_job_status(job_id, "RUNNING")
     
     log_path = os.path.join(job_dir, "run.log")
+    python_cli = get_python_exe()
     
-    # Path absolut menuju reinvent CLI yang ada di .venv
-    reinvent_cli = r"D:\S2\REINVENT\REINVENT4-main\.venv\Scripts\reinvent.exe"
-    
+    # Jalankan reinvent sebagai python module python -m reinvent
     try:
         with open(log_path, "w") as log_file:
             process = subprocess.Popen(
-                [reinvent_cli, "-l", log_path, toml_path],
+                [python_cli, "-m", "reinvent", "-l", log_path, toml_path],
                 cwd=job_dir,
                 stdout=log_file,
                 stderr=subprocess.STDOUT
@@ -74,9 +78,8 @@ def run_datapipeline_job(job_id: str, toml_path: str):
     job_dir = get_job_dir(job_id)
     update_job_status(job_id, "RUNNING")
     log_path = os.path.join(job_dir, "run.log")
-    python_cli = r"D:\S2\REINVENT\REINVENT4-main\.venv\Scripts\python.exe"
+    python_cli = get_python_exe()
     try:
-        import subprocess
         with open(log_path, "w") as log_file:
             process = subprocess.Popen(
                 [python_cli, "-m", "reinvent.datapipeline", "-l", log_path, toml_path],

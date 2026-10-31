@@ -21,6 +21,37 @@ def t(key, *args):
     
     return _t(key, active_lang, *args)
 
+import sys
+import time
+import subprocess
+
+# Auto-start FastAPI backend server if running on cloud / background
+def ensure_api_running():
+    try:
+        r = requests.get("http://localhost:8000/docs", timeout=0.8)
+    except Exception:
+        # Start uvicorn server in background
+        web_dir = os.path.dirname(os.path.abspath(__file__))
+        app_root = os.path.abspath(os.path.join(web_dir, ".."))
+        reinvent_pkg = os.path.join(app_root, "REINVENT4-main")
+        
+        env = os.environ.copy()
+        python_paths = [app_root, web_dir, reinvent_pkg]
+        if "PYTHONPATH" in env:
+            python_paths.append(env["PYTHONPATH"])
+        env["PYTHONPATH"] = os.pathsep.join(python_paths)
+
+        subprocess.Popen(
+            [sys.executable, "-m", "uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"],
+            cwd=web_dir,
+            env=env,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        time.sleep(2.5)
+
+ensure_api_running()
+
 API_URL = "http://localhost:8000/api"
 JOBS_DIR = os.path.join(os.path.dirname(__file__), "jobs")
 
