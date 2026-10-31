@@ -103,8 +103,8 @@ def create_transfer_learning_toml(job_dir: str, prior_file: str, input_csv: str,
         "json_out_config": "_tl.json",
         "parameters": {
             "num_epochs": epochs,
+            "batch_size": batch_size,
             "save_every_n_epochs": max(1, epochs),
-            
             "num_refs": num_refs,
             "sample_batch_size": 100,
             "tb_isim": False,
