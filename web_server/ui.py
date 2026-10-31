@@ -147,7 +147,6 @@ def render_preprocessing_results(job_id: str):
     import os
     job_dir = os.path.join(JOBS_DIR, job_id)
     smi_path = os.path.join(job_dir, "processed.smi")
-    download_url = f"{API_URL}/jobs/{job_id}/download_preprocessed"
 
     st.success(t("pre_result_title"))
 
@@ -157,21 +156,45 @@ def render_preprocessing_results(job_id: str):
         st.metric(t("pre_result_metric"), f"{len(lines)} SMILES")
         with st.expander(t("pre_result_preview")):
             st.code("\n".join(lines[:20]))
+        
+        with open(smi_path, "rb") as f:
+            smi_bytes = f.read()
+        st.download_button(
+            label=f"⬇️ {t('pre_download')}",
+            data=smi_bytes,
+            file_name=f"processed_{job_id[:8]}.smi",
+            mime="text/plain",
+            key=f"dl_pre_{job_id}"
+        )
     else:
         st.warning(t("pre_no_smi"))
 
-    st.markdown(f"**[{t('pre_download')}]({download_url})**")
     st.info(t("pre_download_info"))
 
 def render_tl_results(job_id: str):
-    model_url = f"{API_URL}/jobs/{job_id}/download_model"
+    job_dir = os.path.join(JOBS_DIR, job_id)
+    model_path = os.path.join(job_dir, "model.prior")
+    if not os.path.exists(model_path):
+        model_path = os.path.join(job_dir, "model_1.chkpt")
+    
     st.success(t("tl_result_title"))
-    st.markdown(f"**[{t('tl_download')}]({model_url})**")
+    if os.path.exists(model_path):
+        with open(model_path, "rb") as f:
+            model_bytes = f.read()
+        st.download_button(
+            label=f"⬇️ {t('tl_download')}",
+            data=model_bytes,
+            file_name=f"finetuned_{job_id[:8]}.prior",
+            mime="application/octet-stream",
+            key=f"dl_tl_{job_id}"
+        )
+    else:
+        st.warning(t("tl_csv_wait") if "tl_csv_wait" in STRINGS.get("id", {}) else "Model belum tersedia.")
 
 def render_rl_results(job_id: str):
-    csv_url = f"{API_URL}/jobs/{job_id}/download_rl"
     job_dir = os.path.join(JOBS_DIR, job_id)
     csv_path = os.path.join(job_dir, "staged_learning_1.csv")
+    model_path = os.path.join(job_dir, "stage1.chkpt")
     
     st.success(t("rl_result_title"))
     
@@ -184,7 +207,16 @@ def render_rl_results(job_id: str):
     else:
         st.warning(t("rl_csv_wait"))
         
-    st.markdown(f"**[{t('rl_download')}]({csv_url})**")
+    if os.path.exists(model_path):
+        with open(model_path, "rb") as f:
+            model_bytes = f.read()
+        st.download_button(
+            label=f"⬇️ {t('rl_download')}",
+            data=model_bytes,
+            file_name=f"rl_model_{job_id[:8]}.prior",
+            mime="application/octet-stream",
+            key=f"dl_rl_{job_id}"
+        )
 
 # ─────────────────────── Landing Page ───────────────────────
 
