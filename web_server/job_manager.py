@@ -91,6 +91,19 @@ def run_datapipeline_job(job_id: str, toml_path: str):
         if process.returncode == 0:
             update_job_status(job_id, "COMPLETED")
         else:
-            update_job_status(job_id, "FAILED", f"Exit code {process.returncode}. Cek run.log")
+            err_snippet = ""
+            if os.path.exists(log_path):
+                try:
+                    with open(log_path, "r", encoding="utf-8", errors="ignore") as lf:
+                        lines = [line.strip() for line in lf.readlines() if line.strip()]
+                        err_snippet = " | ".join(lines[-3:]) if lines else ""
+                except Exception:
+                    pass
+            msg = f"Exit code {process.returncode}."
+            if err_snippet:
+                msg += f" Error: {err_snippet}"
+            else:
+                msg += " Cek run.log"
+            update_job_status(job_id, "FAILED", msg)
     except Exception as e:
         update_job_status(job_id, "FAILED", str(e))

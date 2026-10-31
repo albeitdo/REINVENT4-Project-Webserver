@@ -606,7 +606,19 @@ if "current_job" in st.session_state:
                     st.session_state["view_job_mode"] = job_mode
             elif status == "FAILED":
                 st.sidebar.error(t("status_failed"))
-                st.sidebar.caption(status_data.get("error", t("check_log")))
+                err_msg = status_data.get("error", t("check_log"))
+                st.sidebar.error(err_msg)
+                
+                # Show run.log if available
+                log_file = os.path.join(JOBS_DIR, job_id, "run.log")
+                if os.path.exists(log_file):
+                    try:
+                        with open(log_file, "r", encoding="utf-8", errors="ignore") as lf:
+                            log_content = lf.read()
+                        with st.sidebar.expander("📄 Detail run.log"):
+                            st.code(log_content[-2000:], language="text")
+                    except Exception:
+                        pass
         else:
             st.sidebar.warning(t("job_not_found"))
     except Exception:
