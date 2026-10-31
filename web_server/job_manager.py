@@ -56,12 +56,25 @@ def run_reinvent_job(job_id: str, toml_path: str):
     log_path = os.path.join(job_dir, "run.log")
     python_cli = get_python_exe()
     
-    # Jalankan reinvent sebagai python module python -m reinvent
+    # Siapkan environment agar REINVENT menemukan modul dan folder priors
+    web_dir = os.path.dirname(os.path.abspath(__file__))
+    app_root = os.path.abspath(os.path.join(web_dir, ".."))
+    reinvent_pkg = os.path.join(app_root, "REINVENT4-main")
+    priors_dir = os.path.join(reinvent_pkg, "priors")
+    
+    env = os.environ.copy()
+    env["REINVENT_PRIOR_BASE"] = priors_dir
+    python_paths = [app_root, web_dir, reinvent_pkg]
+    if "PYTHONPATH" in env:
+        python_paths.append(env["PYTHONPATH"])
+    env["PYTHONPATH"] = os.pathsep.join(python_paths)
+
     try:
         with open(log_path, "w") as log_file:
             process = subprocess.Popen(
                 [python_cli, "-m", "reinvent", "-l", log_path, toml_path],
                 cwd=job_dir,
+                env=env,
                 stdout=log_file,
                 stderr=subprocess.STDOUT
             )
@@ -70,7 +83,20 @@ def run_reinvent_job(job_id: str, toml_path: str):
         if process.returncode == 0:
             update_job_status(job_id, "COMPLETED")
         else:
-            update_job_status(job_id, "FAILED", f"Proses exit dengan kode {process.returncode}. Cek run.log untuk detailnya.")
+            err_snippet = ""
+            if os.path.exists(log_path):
+                try:
+                    with open(log_path, "r", encoding="utf-8", errors="ignore") as lf:
+                        lines = [line.strip() for line in lf.readlines() if line.strip()]
+                        err_snippet = " | ".join(lines[-3:]) if lines else ""
+                except Exception:
+                    pass
+            msg = f"Exit code {process.returncode}."
+            if err_snippet:
+                msg += f" Error: {err_snippet}"
+            else:
+                msg += " Cek run.log"
+            update_job_status(job_id, "FAILED", msg)
     except Exception as e:
         update_job_status(job_id, "FAILED", str(e))
 
@@ -79,11 +105,21 @@ def run_datapipeline_job(job_id: str, toml_path: str):
     update_job_status(job_id, "RUNNING")
     log_path = os.path.join(job_dir, "run.log")
     python_cli = get_python_exe()
+    web_dir = os.path.dirname(os.path.abspath(__file__))
+    app_root = os.path.abspath(os.path.join(web_dir, ".."))
+    reinvent_pkg = os.path.join(app_root, "REINVENT4-main")
+    env = os.environ.copy()
+    python_paths = [app_root, web_dir, reinvent_pkg]
+    if "PYTHONPATH" in env:
+        python_paths.append(env["PYTHONPATH"])
+    env["PYTHONPATH"] = os.pathsep.join(python_paths)
+
     try:
         with open(log_path, "w") as log_file:
             process = subprocess.Popen(
                 [python_cli, "-m", "reinvent.datapipeline", "-l", log_path, toml_path],
                 cwd=job_dir,
+                env=env,
                 stdout=log_file,
                 stderr=subprocess.STDOUT
             )

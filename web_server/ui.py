@@ -719,6 +719,18 @@ else:
                     st.session_state["view_job"] = jid
                     st.session_state["view_job_mode"] = job.get("mode", "sampling")
                     st.rerun()
+            elif jstat == "FAILED":
+                err_text = job.get("error", "")
+                if err_text:
+                    st.caption(f":red[{err_text}]")
+                hist_log = os.path.join(JOBS_DIR, jid, "run.log")
+                if os.path.exists(hist_log):
+                    with st.expander("Detail Log"):
+                        try:
+                            with open(hist_log, "r", encoding="utf-8", errors="ignore") as hf:
+                                st.code(hf.read()[-1500:], language="text")
+                        except Exception:
+                            pass
             st.markdown("---")
 
 # ─────────────────────── Result Viewer ───────────────────────
