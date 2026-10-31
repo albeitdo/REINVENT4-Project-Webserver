@@ -73,7 +73,7 @@ def create_interface_deck(output_path="Presentasi_REINVENT4_Interface_Style.pptx
             p_r.font.size = Pt(12)
             p_r.font.color.rgb = PLUS_COLOR
 
-    def draw_window_frame(slide, url_path="localhost:8501"):
+    def draw_window_frame(slide, url_path="proto-reinvent4.streamlit.app"):
         draw_plus_grid(slide)
 
         # Main window container (rounded rectangle)
@@ -639,7 +639,7 @@ def create_interface_deck(output_path="Presentasi_REINVENT4_Interface_Style.pptx
     btn_l.line.width = Pt(1.2)
     tf_bl = btn_l.text_frame
     tf_bl.margin_top = Inches(0.12)
-    add_p(tf_bl, "UI: localhost:8501", 12, True, TEXT_HEADING, align=PP_ALIGN.CENTER, name="Consolas")
+    add_p(tf_bl, "UI: proto-reinvent4.streamlit.app", 12, True, TEXT_HEADING, align=PP_ALIGN.CENTER, name="Consolas")
 
     btn_r = s12.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.8), Inches(5.2), Inches(2.4), Inches(0.65))
     btn_r.fill.solid()
@@ -655,3 +655,4 @@ def create_interface_deck(output_path="Presentasi_REINVENT4_Interface_Style.pptx
 
 if __name__ == "__main__":
     create_interface_deck("d:/S2/REINVENT/web_server/Presentasi_REINVENT4_Interface_Style.pptx")
+

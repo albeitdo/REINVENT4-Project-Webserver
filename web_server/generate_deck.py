@@ -409,9 +409,10 @@ def create_deck(output_path):
     tf = textbox(s, Inches(1.5), Inches(2.2), Inches(10.33), Inches(3.0))
     add_p(tf, "Terima Kasih", 42, True, WHITE, 12, PP_ALIGN.CENTER)
     add_p(tf, "Ada pertanyaan? Atau mau langsung demo?", 18, False, MUTED, 24, PP_ALIGN.CENTER)
-    add_p(tf, "localhost:8501  ·  localhost:8000/docs", 13, False, RGBColor(100, 120, 150), 0, PP_ALIGN.CENTER)
+    add_p(tf, "proto-reinvent4.streamlit.app  ·  localhost:8000/docs", 13, False, RGBColor(100, 120, 150), 0, PP_ALIGN.CENTER)
 
     prs.save(output_path)
     print(f"Done: {output_path}")
 
 create_deck("d:/S2/REINVENT/web_server/Presentasi_REINVENT4.pptx")
+
