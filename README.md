@@ -62,7 +62,7 @@ cd web_server
 Script tersebut akan menyalakan **API Server (Port 8000)** dan **Web UI (Port 8501)** secara bersamaan.
 
 ### 2. Membuka di Browser
-- **Aplikasi Web**: [http://localhost:8501](http://localhost:8501)
+- **Aplikasi Web**: [https://proto-reinvent4.streamlit.app](https://proto-reinvent4.streamlit.app)
 - **Dokumentasi API Swagger**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
@@ -72,7 +72,7 @@ Script tersebut akan menyalakan **API Server (Port 8000)** dan **Web UI (Port 85
 Berikut panduan skenario demo penemuan obat dari awal hingga akhir:
 
 ### Langkah 1: Sambutan & Pilihan Bahasa
-1. Buka [http://localhost:8501](http://localhost:8501).
+1. Buka [https://proto-reinvent4.streamlit.app](https://proto-reinvent4.streamlit.app).
 2. Di halaman **Welcome Screen**, pilih bahasa yang Anda inginkan (**Indonesia** / **English**).
 3. Klik tombol **"Mulai"** / **"Start"** untuk masuk ke portal kerja.
 
@@ -139,3 +139,4 @@ REINVENT/
 ## 👥 Kontributor & Lisensi
 - Dikembangkan untuk keperluan penelitian dan pemanfaatan komputasi farmasi.
 - Didukung oleh modul inti **REINVENT 4** (AstraZeneca, lisensi Apache 2.0).
+

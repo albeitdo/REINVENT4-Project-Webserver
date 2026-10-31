@@ -40,7 +40,7 @@ Aplikasi ini menyusun siklus perancangan molekul ke dalam 4 langkah berurutan:
 
 ## 1. Memulai & Memilih Bahasa
 
-1. Buka browser dan akses alamat portal (biasanya `http://localhost:8501`).
+1. Buka browser dan akses alamat portal (biasanya `https://proto-reinvent4.streamlit.app`).
 2. Di halaman **Welcome Screen**:
    - Terdapat ringkasan 4 fitur utama.
    - Pilih bahasa tampilan yang nyaman bagi Anda: **Indonesia** atau **English**.
@@ -157,3 +157,4 @@ Karena pelatihan *neural network* membutuhkan waktu:
 
 **Q: Bisakah saya langsung melakukan Sampling tanpa Transfer Learning?**  
 *A: Bisa! Anda bisa langsung ke menu Sampling dan memilih model bawaan (`reinvent.prior`) untuk mengeksplorasi molekul de novo secara bebas.*
+
