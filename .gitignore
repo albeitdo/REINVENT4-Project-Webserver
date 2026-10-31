@@ -1,0 +1,30 @@
+# Virtual Environments & Python cache (JANGAN DI-UPLOAD - file raksasa)
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Data eksekusi / history run lokal
+web_server/jobs/
+web_server/*.log
+web_server/temp_*.py
+web_server/download_thumbs.py
+web_server/check_*.py
+web_server/fix_*.py
+web_server/update_*.py
+web_server/add_*.py
+web_server/find_*.py
+web_server/apply_*.py
+web_server/replace_*.py
+
+# File Windows execute & script lokal
+*.bat
+*.exe
+*.tmp
+
+# File dokumen/presentasi lokal jika tidak ingin di-publish
+*.pptx
+*.doc
+template_thumb.jpg
+slide_*_thumb.jpg

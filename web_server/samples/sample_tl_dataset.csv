@@ -1,0 +1,31 @@
+SMILES,Name,MW,LogP
+CC(=O)Oc1ccccc1C(=O)O,Aspirin,180.16,1.19
+CC(C)Cc1ccc(cc1)C(C)C(=O)O,Ibuprofen,206.28,3.97
+CC(=O)Nc1ccc(O)cc1,Paracetamol,151.16,0.46
+Cn1c(=O)c2c(ncn2C)n(c1=O)C,Caffeine,194.19,-0.07
+CC(=O)CC(c1ccccc1)c1c(O)c2ccccc2oc1=O,Warfarin,308.33,2.70
+CN(C)C(=N)NC(=N)N,Metformin,129.16,-2.63
+OC(=O)c1ccc(N)cc1,4-Aminobenzoic acid,137.14,0.83
+OC(=O)c1cccnc1,Nicotinic acid,123.11,-0.19
+OC(=O)c1ccncc1,Isonicotinic acid,123.11,-0.36
+Cc1ccc(S(N)(=O)=O)cc1,Toluenesulfonamide,171.22,0.64
+CC(O)c1ccccc1,1-Phenylethan-1-ol,122.17,1.10
+NC(=O)c1ccccc1,Benzamide,121.14,0.64
+OC(=O)c1ccccc1,Benzoic acid,122.12,1.87
+OC(=O)CCc1ccccc1,Hydrocinnamic acid,150.17,1.91
+CC(=O)c1ccccc1,Acetophenone,120.15,1.58
+Oc1ccccc1,Phenol,94.11,1.46
+OC(=O)c1ccc(O)cc1,4-Hydroxybenzoic acid,138.12,1.37
+CC(=O)Nc1ccc(Cl)cc1,4-Chloroacetanilide,169.61,2.40
+Nc1ccccc1,Aniline,93.13,0.90
+CC(=O)c1ccc(O)cc1,4-Hydroxyacetophenone,136.15,0.89
+Cc1ccccc1,Toluene,92.14,2.73
+Clc1ccccc1,Chlorobenzene,112.56,2.84
+OC(=O)CC(=O)O,Malonic acid,104.06,-0.81
+OC(=O)C(=O)O,Oxalic acid,90.03,-1.25
+OC(=O)CCCC(=O)O,Glutaric acid,132.12,0.24
+CC(=O)OCC,Ethyl acetate,88.11,0.73
+CCOC(=O)c1ccccc1,Ethyl benzoate,150.17,2.64
+OC(=O)c1ccc(Cl)cc1,4-Chlorobenzoic acid,156.57,2.65
+Cc1ccc(C(=O)O)cc1,4-Methylbenzoic acid,136.15,2.27
+OC(=O)c1cccc(O)c1,3-Hydroxybenzoic acid,138.12,1.50
