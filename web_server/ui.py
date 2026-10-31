@@ -42,7 +42,7 @@ def ensure_api_running():
         env["PYTHONPATH"] = os.pathsep.join(python_paths)
 
         subprocess.Popen(
-            [sys.executable, "-m", "uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"],
+            [sys.executable, "-m", "uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"],
             cwd=web_dir,
             env=env,
             stdout=subprocess.DEVNULL,

@@ -80,6 +80,9 @@ async def start_tl(
     else:
         prior_path = prior_name
 
+    import importlib
+    importlib.reload(toml_builder)
+
     toml_path = toml_builder.create_transfer_learning_toml(
         job_dir=job_dir,
         prior_file=prior_path,
