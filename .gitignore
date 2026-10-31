@@ -23,8 +23,13 @@ web_server/replace_*.py
 *.exe
 *.tmp
 
-# File dokumen/presentasi lokal jika tidak ingin di-publish
+# File dokumen/presentasi lokal
 *.pptx
 *.doc
 template_thumb.jpg
 slide_*_thumb.jpg
+
+# Tutorial bawaan & Unit Tests REINVENT (ribuan file sdf kecil yang bikin ramai)
+REINVENT4-main/contrib/
+REINVENT4-main/tests/
+REINVENT4-main/notebooks/
