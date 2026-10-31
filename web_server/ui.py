@@ -157,15 +157,32 @@ def render_preprocessing_results(job_id: str):
         with st.expander(t("pre_result_preview")):
             st.code("\n".join(lines[:20]))
         
+        # Sediakan download .smi dan .csv
         with open(smi_path, "rb") as f:
             smi_bytes = f.read()
-        st.download_button(
-            label=f"⬇️ {t('pre_download')}",
-            data=smi_bytes,
-            file_name=f"processed_{job_id[:8]}.smi",
-            mime="text/plain",
-            key=f"dl_pre_{job_id}"
-        )
+            
+        csv_text = "SMILES\n" + "\n".join(lines)
+        csv_bytes = csv_text.encode("utf-8")
+        
+        dl_col1, dl_col2 = st.columns(2)
+        with dl_col1:
+            st.download_button(
+                label="⬇️ Download CSV (.csv)",
+                data=csv_bytes,
+                file_name=f"processed_{job_id[:8]}.csv",
+                mime="text/csv",
+                key=f"dl_pre_csv_{job_id}",
+                use_container_width=True
+            )
+        with dl_col2:
+            st.download_button(
+                label="⬇️ Download SMI (.smi)",
+                data=smi_bytes,
+                file_name=f"processed_{job_id[:8]}.smi",
+                mime="text/plain",
+                key=f"dl_pre_smi_{job_id}",
+                use_container_width=True
+            )
     else:
         st.warning(t("pre_no_smi"))
 
@@ -451,7 +468,8 @@ elif mode == t("mode_tl"):
 
     dataset_file = st.file_uploader(
         t("tl_upload_dataset"),
-        type=["csv"],
+        type=["csv", "smi", "txt"],
+        help="Mendukung file CSV (kolom SMILES), atau file SMILES baris demi baris (.smi / .txt)",
         key="tl_dataset_uploader"
     )
 

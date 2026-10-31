@@ -37,22 +37,45 @@ def create_transfer_learning_toml(job_dir: str, prior_file: str, input_csv: str,
     train_smi_path = os.path.join(job_dir, "train.smi")
     valid_smi_path = os.path.join(job_dir, "valid.smi")
     
-    with open(input_csv, newline="", encoding="utf-8") as csvfile:
-        reader = csv.DictReader(csvfile)
-        smiles_col = None
-        for col in reader.fieldnames:
-            if col.strip().upper() == "SMILES":
-                smiles_col = col
-                break
-        if smiles_col is None:
-            raise ValueError("Kolom 'SMILES' tidak ditemukan dalam file CSV.")
+    smiles_list = []
+    # Check if file has CSV header with SMILES or is a plain list of SMILES
+    with open(input_csv, "r", encoding="utf-8", errors="ignore") as f:
+        first_line = f.readline().strip()
+        f.seek(0)
+        
+        # If header has comma or smiles keyword, try DictReader
+        if "," in first_line or "smiles" in first_line.lower():
+            try:
+                reader = csv.DictReader(f)
+                smiles_col = None
+                if reader.fieldnames:
+                    for col in reader.fieldnames:
+                        if col and col.strip().upper() == "SMILES":
+                            smiles_col = col
+                            break
+                if smiles_col:
+                    for row in reader:
+                        smi = (row.get(smiles_col) or "").strip()
+                        if smi:
+                            smiles_list.append(smi)
+            except Exception:
+                pass
+
+        # If not parsed as CSV or empty, treat as line-by-line SMILES file (.smi / .txt)
+        if not smiles_list:
+            f.seek(0)
+            for line in f:
+                line_str = line.strip()
+                if not line_str or line_str.startswith("#"):
+                    continue
+                # Split by space or tab if line has id (standard .smi format: SMILES ID)
+                parts = line_str.split()
+                if parts and parts[0].lower() != "smiles":
+                    smiles_list.append(parts[0])
+
+    if not smiles_list:
+        raise ValueError("Tidak ada struktur SMILES yang valid ditemukan dalam dataset.")
             
-        smiles_list = []
-        for row in reader:
-            smi = row[smiles_col].strip()
-            if smi:
-                smiles_list.append(smi)
-                
     random.shuffle(smiles_list)
     
     if val_split > 0.0:
