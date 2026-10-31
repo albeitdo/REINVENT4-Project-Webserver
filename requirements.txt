@@ -13,13 +13,13 @@ torch>=2.0.0
 torchvision
 toml>=0.10.2
 pillow>=10.0.0
-molvs>=0.1.1
+molvs==0.1.1
 xxhash>=3.0.0
 tqdm>=4.64.0
 PyYAML>=6.0
 tensorboard>=2.10.0
 python-dotenv>=1.0.0
 matplotlib>=3.7.0
-pumas>=1.3.0
-mmpdb>=2.1
-apted>=1.0.3
+pumas==1.3.0
+mmpdb==2.1
+apted==1.0.3
